@@ -1,0 +1,84 @@
+cd('/Users/florencet/Documents/matlab_root/chrap-ball/meeting_and_analysis/data/2016-02-10/20160210111452_HC-Gal4xUAS-20x-Chr_calib_chr_intensity')
+load('summary_data.mat')
+
+jj = 4;
+
+cmap = [255, 240, 60;...
+        255, 87, 114;...
+        91, 113, 204;...
+        59, 178, 101]/255;
+close all
+
+f1 = figure('Position', [48 -205 763 897], 'color', 'w');
+
+%% vsum
+s1 = subplot(4, 1, 1 );
+title('\Sigma|rotation|','fontsize', 20,'Units', 'normalized', ...
+'Position', [0 1], 'HorizontalAlignment', 'left')
+hold on
+for ii = 1:4
+    
+    plot(summary_data(jj).raw_vsum(ii,:),...
+        'color', cmap(ii, :), ...
+        'linewidth', .5)
+
+end
+
+plot(summary_data(jj).mean_vsum, 'k')
+ylim([0 10])
+
+set(gca, 'XTick', [0 750 1500 2250 3000], 'XTicklabel', {})
+
+%% vsum
+s2 = subplot(4, 1, 2 );
+title('Vfwd','fontsize', 20,'Units', 'normalized', ...
+'Position', [0 1], 'HorizontalAlignment', 'left')
+hold on
+for ii = 1:4
+    
+    plot(summary_data(jj).raw_vfwd(ii,:),...
+        'color', cmap(ii, :), ...
+        'linewidth', .5)
+
+end
+
+plot(summary_data(jj).mean_vfwd, 'k')
+ylim([0 5])
+
+set(gca, 'XTick', [0 750 1500 2250 3000], 'XTicklabel', {})
+
+%% vss
+s3 = subplot(4, 1, 3 );
+title('Vss','fontsize', 20,'Units', 'normalized', ...
+'Position', [0 1], 'HorizontalAlignment', 'left')
+hold on
+for ii = 1:4
+    
+    plot(summary_data(jj).raw_vss(ii,:),...
+        'color', cmap(ii, :), ...
+        'linewidth', .5)
+
+end
+
+plot(summary_data(jj).mean_vss, 'k')
+ylim([-3 3])
+
+set(gca, 'XTick', [0 750 1500 2250 3000], 'XTicklabel', {})
+
+%% vom
+s3 = subplot(4, 1, 3 );
+title('Vom','fontsize', 20,'Units', 'normalized', ...
+'Position', [0 1], 'HorizontalAlignment', 'left')
+hold on
+for ii = 1:4
+    
+    plot(summary_data(jj).raw_vss(ii,:),...
+        'color', cmap(ii, :), ...
+        'linewidth', .5)
+
+end
+
+plot(summary_data(jj).mean_vss, 'k')
+ylim([-3 3])
+
+set(gca, 'XTick', [0 750 1500 2250 3000], 'XTicklabel', {})
