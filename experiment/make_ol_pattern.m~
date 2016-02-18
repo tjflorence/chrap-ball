@@ -1,0 +1,41 @@
+%% Starfield_minimal motion
+clear all
+save_directory = 'C:\Users\wus10\Desktop\XmegaController_Matlab_V13\Patterns\test';
+
+
+% generate patterns
+gs_val = 1;
+row_compression = 0;
+
+pattern.Pats        = Pats;
+pattern.x_num       = size(Pats,3);
+pattern.y_num       = size(Pats,4);
+pattern.num_panels  = 48;
+pattern.gs_val      = gs_val;     
+pattern.row_compression = row_compression; 
+panel_id_map =                  [ 4 11  7  3 10  6  2  9  5  1 12  8 ; 
+                                 16 23 19 15 22 18 14 21 17 13 24 20 ;
+                                 28 35 31 27 34 30 26 33 29 25 36 32 ;
+                                 40 47 43 39 46 42 38 45 41 37 48 44 ];%for fly treadmill id
+pattern.Panel_map = panel_id_map;
+
+pattern.BitMapIndex = process_panel_map(pattern);
+pattern.data = Make_pattern_vector(pattern);
+
+
+      if ~exist(save_directory,'dir')
+         mkdir(save_directory)
+      end
+         if iter <10
+         dd = '0';
+         else
+         dd = [];
+         end   
+         
+NO = [num2str(iter)];
+pattern_name = ['Pattern_' dd NO '_' type '_' MT];
+save(fullfile(save_directory,pattern_name),'pattern');
+iter = iter + 1;
+  
+ end
+end
