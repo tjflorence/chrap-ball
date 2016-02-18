@@ -1,4 +1,4 @@
-daydir = '/Users/florencet/Documents/matlab_root/chrap-ball/meeting_and_analysis/data/2016-02-10';
+daydir = '/Users/florencet/Documents/matlab_root/chrap-ball/meeting_and_analysis/data/2016-02-11';
 
 cd(daydir)
 
@@ -75,7 +75,7 @@ for aa = 1:length(expfiles)
        if pvec(bb) < 0 
             ctext = num2str(pvec(bb));
        else
-             ctext = ['0' num2str(pvec(bbgfh))];
+             ctext = ['0' num2str(pvec(bb))];
        end           
             
         cfiles = dir(['*power_' ctext '.mat']);

@@ -1,7 +1,10 @@
-cd('/Users/florencet/Documents/matlab_root/chrap-ball/meeting_and_analysis/data/2016-02-10/20160210111452_HC-Gal4xUAS-20x-Chr_calib_chr_intensity')
+function plot_conf_trial_summary(expdir)
+
+homedir = pwd;
+cd(expdir)
+
 load('summary_data.mat')
 
-jj = 11;
 
 cmap = [255, 240, 60;...
         255, 87, 114;...
@@ -9,11 +12,15 @@ cmap = [255, 240, 60;...
         59, 178, 101]/255;
 close all
 
-f1 = figure('Position', [48 -205 763 897], 'color', 'w');
+
+for jj = 1:11
+
+close all
+f1 = figure('Position', [48 -205 763 897], 'color', 'w', 'visible', 'off');
 
 %% vsum
 s1 = subplot(4, 1, 1 );
-title('\Sigma|rotation|','fontsize', 20,'Units', 'normalized', ...
+title('\Sigma abs rotation','fontsize', 20,'Units', 'normalized', ...
 'Position', [0 1], 'HorizontalAlignment', 'left')
 hold on
 
@@ -39,7 +46,7 @@ xlim([0 3000])
 
 %% vfwd
 s2 = subplot(4, 1, 2 );
-title('Vfwd','fontsize', 20,'Units', 'normalized', ...
+title('pitch (fwd)','fontsize', 20,'Units', 'normalized', ...
 'Position', [0 1], 'HorizontalAlignment', 'left')
 hold on
 
@@ -52,6 +59,7 @@ zh = fill([1500 3000 3000 1500], [-100 -100 100 100], 'r');
 set(zh, 'EdgeColor', 'none');
 alpha(zh, .1)
 
+plot([-10000 10000], [0 0], 'k')
 
 confplot(xvals, yvals, z1, z2, [0 0 0])
 
@@ -64,12 +72,12 @@ set(gca, 'XTick', [0 750 1500 2250 3000], ...
     'XTicklabel', {}, 'Fontsize', 22)
 
 xlim([0 3000])
-ylim([-2 3])
+ylim([-5 5])
 
 
 %% vss
 s3 = subplot(4, 1, 3 );
-title('Vss','fontsize', 20,'Units', 'normalized', ...
+title('yaw (az)','fontsize', 20,'Units', 'normalized', ...
 'Position', [0 1], 'HorizontalAlignment', 'left')
 
 hold on
@@ -83,54 +91,62 @@ zh = fill([1500 3000 3000 1500], [-100 -100 100 100], 'r');
 set(zh, 'EdgeColor', 'none');
 alpha(zh, .1)
 
+plot([-10000 10000], [0 0], 'k')
 
 confplot(xvals, yvals, z1, z2, [0 0 0])
 
-
 %plot(summary_data(jj).mean_vss, 'k')
-ylim([-3 3])
-
-set(gca, 'XTick', [0 750 1500 2250 3000], ...
-    'XTicklabel', {}, 'Fontsize', 22)
-
-%% vom
-s3 = subplot(4, 1, 3 );
-title('Vom','fontsize', 20,'Units', 'normalized', ...
-'Position', [0 1], 'HorizontalAlignment', 'left')
-hold on
-for ii = 1:4
-    
-    plot(summary_data(jj).raw_om(ii,:),...
-        'color', cmap(ii, :), ...
-        'linewidth', .5)
-
-end
-
-%plot(summary_data(jj).mean_om, 'k')
 ylim([-5 5])
+xlim([0 3000])
 
 set(gca, 'XTick', [0 750 1500 2250 3000], ...
     'XTicklabel', {}, 'Fontsize', 22)
+
+
 
 %% vss
-s3 = subplot(4, 1, 4 );
-title('Vss','fontsize', 20,'Units', 'normalized', ...
+s4 = subplot(4, 1, 4 );
+title('roll (ss)','fontsize', 20,'Units', 'normalized', ...
 'Position', [0 1], 'HorizontalAlignment', 'left')
 hold on
-for ii = 1:4
-    
-    plot(summary_data(jj).raw_vss(ii,:),...
-        'color', cmap(ii, :), ...
-        'linewidth', .5)
+xvals = 1:3000;
+yvals = summary_data(jj).mean_vss;
+z1 = std(summary_data(jj).raw_vss);
+z2 = z1;
 
-end
+zh = fill([1500 3000 3000 1500], [-100 -100 100 100], 'r');
+set(zh, 'EdgeColor', 'none');
+alpha(zh, .1)
+
+plot([-10000 10000], [0 0], 'k')
+
+confplot(xvals, yvals, z1, z2, [0 0 0])
 
 %plot(summary_data(jj).mean_vss, 'k')
-ylim([-3 3])
+ylim([-5 5])
+xlim([0 3000])
 
 set(gca, 'XTick', [0 750 1500 2250 3000], ...
-    'XTicklabel', {'0', '15', '30', '45', '60'}, ...
-    'FontSize', 22)
+    'XTicklabel', {'0', '15', '30', '45', '60'}, 'Fontsize', 22)
 
 xlabel('time (sec)', 'fontsize', 25)
 ylabel('ticks (au)', 'fontsize', 25)
+
+
+set(f1, 'Units', 'Inches')
+pos = get(f1, 'position');
+set(f1, 'PaperPositionMode','Auto',...
+    'PaperUnits','Inches','PaperSize',[pos(3), pos(4)]);
+
+mkdir('plots')
+cd('plots')
+
+print(f1, ['conf_summary_duty_' num2str(((jj-1)/10)*100)  '_pct.pdf'], '-dpdf', '-r0', '-opengl');
+cd('..')
+
+end
+
+cd(homedir)
+close all
+
+end

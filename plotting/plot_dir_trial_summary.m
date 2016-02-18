@@ -1,4 +1,4 @@
-function plot_conf_trial_summary(expdir)
+function plot_dir_trial_summary(expdir)
 
 homedir = pwd;
 cd(expdir)
@@ -24,22 +24,26 @@ title('\Sigma abs rotation','fontsize', 20,'Units', 'normalized', ...
 'Position', [0 1], 'HorizontalAlignment', 'left')
 hold on
 
+
 xvals = 1:3000;
-yvals = summary_data(jj).mean_vsum;
-z1 = std(summary_data(jj).raw_vsum);
+yvals = mean(summary_data.vsum_ctr);
+z1 = std(summary_data.vsum_ctr);
 z2 = z1;
-
-zh = fill([1500 3000 3000 1500], [-100 -100 100 100], 'r');
-set(zh, 'EdgeColor', 'none');
-alpha(zh, .1)
-
-
 confplot(xvals, yvals, z1, z2, [0 0 0])
+
+yvals = mean(summary_data.vsum_left);
+z1 = std(summary_data.vsum_left);
+z2 = z1;
+confplot(xvals, yvals, z1, z2, [0 0 1])
+
+yvals = mean(summary_data.vsum_right);
+z1 = std(summary_data.vsum_right);
+z2 = z1;
+confplot(xvals, yvals, z1, z2, [1 0 0])
 
 set(gca, 'XTick', [0 750 1500 2250 3000], ...
     'XTicklabel', {}, 'Fontsize', 22)
 
-text(2200, 11, [num2str((summary_data(jj).cpower+5)/10*100) '% duty cycle'], 'fontsize', 25)
 
 ylim([0 10])
 xlim([0 3000])
@@ -50,18 +54,27 @@ title('pitch (fwd)','fontsize', 20,'Units', 'normalized', ...
 'Position', [0 1], 'HorizontalAlignment', 'left')
 hold on
 
-xvals = 1:3000;
-yvals = summary_data(jj).mean_vfwd;
-z1 = std(summary_data(jj).raw_vfwd);
-z2 = z1;
-
-zh = fill([1500 3000 3000 1500], [-100 -100 100 100], 'r');
-set(zh, 'EdgeColor', 'none');
-alpha(zh, .1)
 
 plot([-10000 10000], [0 0], 'k')
 
+xvals = 1:3000;
+yvals = mean(summary_data.vfwd_ctr);
+z1 = std(summary_data.vfwd_ctr);
+z2 = z1;
 confplot(xvals, yvals, z1, z2, [0 0 0])
+
+
+yvals = mean(summary_data.vfwd_left);
+z1 = std(summary_data.vfwd_left);
+z2 = z1;
+confplot(xvals, yvals, z1, z2, [0 0 1])
+
+
+yvals = mean(summary_data.vfwd_right);
+z1 = std(summary_data.vfwd_right);
+z2 = z1;
+confplot(xvals, yvals, z1, z2, [1 0 0])
+
 
 set(gca, 'XTick', [0 750 1500 2250 3000], ...
     'XTicklabel', {}, 'Fontsize', 22)
@@ -82,18 +95,26 @@ title('yaw (az)','fontsize', 20,'Units', 'normalized', ...
 
 hold on
 
-xvals = 1:3000;
-yvals = summary_data(jj).mean_om;
-z1 = std(summary_data(jj).raw_om);
-z2 = z1;
-
-zh = fill([1500 3000 3000 1500], [-100 -100 100 100], 'r');
-set(zh, 'EdgeColor', 'none');
-alpha(zh, .1)
 
 plot([-10000 10000], [0 0], 'k')
 
+xvals = 1:3000;
+yvals = mean(summary_data.om_ctr);
+z1 = std(summary_data.om_ctr);
+z2 = z1;
+
 confplot(xvals, yvals, z1, z2, [0 0 0])
+
+
+yvals = mean(summary_data.om_left);
+z1 = std(summary_data.om_left);
+z2 = z1;
+confplot(xvals, yvals, z1, z2, [0 0 1])
+
+yvals = mean(summary_data.om_right);
+z1 = std(summary_data.om_right);
+z2 = z1;
+confplot(xvals, yvals, z1, z2, [1 0 0])
 
 %plot(summary_data(jj).mean_vss, 'k')
 ylim([-5 5])
@@ -109,18 +130,27 @@ s4 = subplot(4, 1, 4 );
 title('roll (ss)','fontsize', 20,'Units', 'normalized', ...
 'Position', [0 1], 'HorizontalAlignment', 'left')
 hold on
-xvals = 1:3000;
-yvals = summary_data(jj).mean_vss;
-z1 = std(summary_data(jj).raw_vss);
-z2 = z1;
 
-zh = fill([1500 3000 3000 1500], [-100 -100 100 100], 'r');
-set(zh, 'EdgeColor', 'none');
-alpha(zh, .1)
+
 
 plot([-10000 10000], [0 0], 'k')
 
+
+xvals = 1:3000;
+yvals = mean(summary_data.vss_ctr);
+z1 = std(summary_data.vss_ctr);
+z2 = z1;
 confplot(xvals, yvals, z1, z2, [0 0 0])
+
+yvals = mean(summary_data.vss_left);
+z1 = std(summary_data.vss_left);
+z2 = z1;
+confplot(xvals, yvals, z1, z2, [0 0 1])
+
+yvals = mean(summary_data.vss_right);
+z1 = std(summary_data.vss_right);
+z2 = z1;
+confplot(xvals, yvals, z1, z2, [1 0 0])
 
 %plot(summary_data(jj).mean_vss, 'k')
 ylim([-5 5])

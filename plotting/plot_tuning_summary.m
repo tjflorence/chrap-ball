@@ -1,3 +1,10 @@
+function plot_tuning_summary(expdir)
+
+homedir = pwd;
+cd(expdir)
+
+close all
+
 f1 = figure('position', [50 203 875 498], 'color', 'w');
 
 load('summary_data.mat')
@@ -41,6 +48,16 @@ xlabel('duty cycle', 'fontsize', 30)
 set(f1, 'Units', 'Inches')
 pos = get(f1, 'position');
 set(f1, 'PaperPositionMode','Auto',...
-    'PaperUnits','Inches','PaperSize',[pos(3), pos(4)])
+    'PaperUnits','Inches','PaperSize',[pos(3), pos(4)]);
+
+mkdir('plots')
+cd('plots')
+
+print(f1, ['intensity_summary.pdf'], '-dpdf', '-r0', '-opengl');
+cd('..')
+
+cd(homedir)
+
+end
 
 
